@@ -6,86 +6,98 @@
 <title>Sciofeltium's Zoo</title>
 
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    html, body {
-        font-family: Arial, sans-serif;
-   }  
-   .section {
-    width: 100%;
-    height: 100vh;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-color: #000;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-    }
+html, body {
+    font-family: Arial, sans-serif;
+    background: #000;
+}
 
-    /* SECTION TERAKHIR */
-    .last-section {
-        position: relative;
-    }
+/* SECTION GAMBAR */
+.section {
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+}
 
-    .countdown-overlay {
-        position: absolute;
-        bottom: 40px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0, 0, 0, 0.65);
-        color: #fff;
-        padding: 20px 30px;
-        border-radius: 14px;
-        display: flex;
-        gap: 20px;
-        text-align: center;
-        backdrop-filter: blur(6px);
-    }
+/* COUNTDOWN AREA */
+.countdown-wrapper {
+    width: 100%;
+    padding: 40px 0;
+    background: #000;
+    display: flex;
+    justify-content: center;
+}
 
-    .time-box {
-        min-width: 80px;
-    }
+.countdown-overlay {
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    padding: 20px 30px;
+    border-radius: 14px;
+    display: flex;
+    gap: 20px;
+    text-align: center;
+    backdrop-filter: blur(6px);
+}
 
-    .time-box span {
-        display: block;
-        font-size: 34px;
-        font-weight: bold;
-    }
+.time-box {
+    min-width: 70px;
+}
 
-    .time-box small {
-        font-size: 12px;
-        letter-spacing: 1px;
-        opacity: 0.8;
-    }
+.time-box span {
+    display: block;
+    font-size: 32px;
+    font-weight: bold;
+}
 
-    /* HINT PLAY MUSIC */
-    .music-hint {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: rgba(0,0,0,0.6);
-        color: #fff;
-        padding: 10px 16px;
-        border-radius: 20px;
-        font-size: 13px;
-        cursor: pointer;
-        z-index: 1000;
+.time-box small {
+    font-size: 12px;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
+
+/* PLAY MUSIC BUTTON */
+.music-hint {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+/* MOBILE FIX */
+@media (max-width: 768px) {
+    .section {
+        height: auto;
+        min-height: 100vh;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-color: #000;
     }
+}
 </style>
 </head>
 
 <body>
 
+<!-- BACKGROUND MUSIC -->
 <audio id="bgMusic" loop>
     <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <div class="music-hint" onclick="playMusic()">🔊 Play Music</div>
 
+<!-- SECTIONS -->
 <div class="section" style="background-image:url('1.png')"></div>
 <div class="section" style="background-image:url('2.png')"></div>
 <div class="section" style="background-image:url('3.png')"></div>
@@ -93,7 +105,8 @@
 <div class="section" style="background-image:url('5.png')"></div>
 <div class="section" style="background-image:url('6.png')"></div>
 
-<div class="section last-section" style="background-image:url('6.png')">
+<!-- COUNTDOWN TERPISAH -->
+<div class="countdown-wrapper">
     <div class="countdown-overlay">
         <div class="time-box">
             <span id="days">0</span>
@@ -115,55 +128,52 @@
 </div>
 
 <script>
-    const targetDate = new Date("2026-02-09T07:00:00").getTime();
+/* COUNTDOWN */
+const targetDate = new Date("2026-02-09T07:00:00").getTime();
 
-    const daysEl = document.getElementById("days");
-    const hoursEl = document.getElementById("hours");
-    const minutesEl = document.getElementById("minutes");
-    const secondsEl = document.getElementById("seconds");
+const daysEl = document.getElementById("days");
+const hoursEl = document.getElementById("hours");
+const minutesEl = document.getElementById("minutes");
+const secondsEl = document.getElementById("seconds");
 
-    setInterval(() => {
-        const now = new Date().getTime();
-        const distance = targetDate - now;
+setInterval(() => {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
 
-        if (distance <= 0) {
-            daysEl.innerHTML = "0";
-            hoursEl.innerHTML = "00";
-            minutesEl.innerHTML = "00";
-            secondsEl.innerHTML = "00";
-            return;
-        }
+    if (distance <= 0) {
+        daysEl.innerHTML = "0";
+        hoursEl.innerHTML = "00";
+        minutesEl.innerHTML = "00";
+        secondsEl.innerHTML = "00";
+        return;
+    }
 
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((distance / (1000 * 60)) % 60);
-        const seconds = Math.floor((distance / 1000) % 60);
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((distance / (1000 * 60)) % 60);
+    const seconds = Math.floor((distance / 1000) % 60);
 
-        daysEl.innerHTML = days;
-        hoursEl.innerHTML = String(hours).padStart(2, '0');
-        minutesEl.innerHTML = String(minutes).padStart(2, '0');
-        secondsEl.innerHTML = String(seconds).padStart(2, '0');
-    }, 1000);
+    daysEl.innerHTML = days;
+    hoursEl.innerHTML = String(hours).padStart(2, '0');
+    minutesEl.innerHTML = String(minutes).padStart(2, '0');
+    secondsEl.innerHTML = String(seconds).padStart(2, '0');
+}, 1000);
 
-    /* BACKGROUND MUSIC */
-    const music = document.getElementById("bgMusic");
+/* MUSIC */
+const music = document.getElementById("bgMusic");
 
-    function playMusic() {
+function playMusic() {
+    music.play();
+    document.querySelector(".music-hint").style.display = "none";
+}
+
+document.addEventListener("click", () => {
+    if (music.paused) {
         music.play();
         document.querySelector(".music-hint").style.display = "none";
     }
-
-    // Auto-play setelah interaksi pertama (aturan browser)
-    document.addEventListener("click", () => {
-        if (music.paused) {
-            music.play();
-            document.querySelector(".music-hint").style.display = "none";
-        }
-    }, { once: true });
+}, { once: true });
 </script>
 
 </body>
 </html>
-
-
-
